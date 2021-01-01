@@ -60,6 +60,7 @@ class BertLabeling(pl.LightningModule):
         phobert_config = PhobertQueryNerConfig.from_pretrained(args.bert_model,
                                                                hidden_dropout_prob=args.bert_dropout,
                                                                attention_probs_dropout_prob=args.bert_dropout,
+                                                               type_vocab_size=2,
                                                                mrc_dropout=args.mrc_dropout)
 
         self.model = PhoBertQueryNER.from_pretrained(args.bert_model,
