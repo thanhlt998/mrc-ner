@@ -37,8 +37,7 @@ class PhoBertQueryNER(RobertaPreTrainedModel):
             match_logits: start-end-match probs of shape [seq_len, 1]
         """
 
-        # bert_outputs = self.bert(input_ids, token_type_ids=token_type_ids, attention_mask=attention_mask)
-        bert_outputs = self.bert(input_ids, attention_mask=attention_mask)
+        bert_outputs = self.bert(input_ids, token_type_ids=token_type_ids, attention_mask=attention_mask)
 
         sequence_heatmap = bert_outputs[0]  # [batch, seq_len, hidden]
         batch_size, seq_len, hid_size = sequence_heatmap.size()

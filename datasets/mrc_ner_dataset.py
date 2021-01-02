@@ -186,8 +186,8 @@ def run_dataset():
     # is_chinese = True
 
     # en datasets
-    bert_path = "/mnt/mrc/bert-base-uncased"
-    json_path = "/mnt/mrc/ace2004/mrc-ner.train"
+    bert_path = "data/bert-base-uncased"
+    json_path = "data/ace2004/mrc-ner.train"
     # json_path = "/mnt/mrc/genia/mrc-ner.train"
     is_chinese = False
 
@@ -211,6 +211,21 @@ def run_dataset():
             print(f"len: {len(tokens)}", tokenizer.decode(tokens, skip_special_tokens=False))
             for start, end in zip(start_positions, end_positions):
                 print(str(sample_idx.item()), str(label_idx.item()) + "\t" + tokenizer.decode(tokens[start: end+1]))
+
+            print('tokens', tokens)
+            # print(list(zip(tokenizer.convert_ids_to_tokens(tokens), start_labels.tolist())))
+            print([tokenizer.id_to_token(id) for id in tokens])
+            print('token_type_ids', token_type_ids)
+            print('start_labels  ', start_labels)
+            print('end_labels    ', end_labels)
+            print('start_label_mask', start_label_mask)
+            print('end_label_mask  ', end_label_mask)
+            print('match_labels', match_labels)
+            print('sample_idx', sample_idx)
+            print('label_idx', label_idx)
+            break
+
+        break
 
 
 if __name__ == '__main__':

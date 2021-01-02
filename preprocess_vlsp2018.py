@@ -12,10 +12,10 @@ map2true_labels = {
 label2idx = {map2true_labels.get(label, label): i for i, label in enumerate(labels)}
 
 label2query = {
-    'LOC': "Địa danh bao gồm tên gọi các hành tinh, thực thể tự nhiên, địa lí lịch sử, vùng quần cư, công trình kiến trúc xây dụng, địa điểm, địa chỉ",
-    'PER': "Tên người bao gồm tên, tên đệm và họ của một người, tên động vật và nhân vật hư cấu, bí danh",
-    'ORG': "Tên tổ chức bao gồm các cơ quan chính phủ, công ti, thương hiệu, tổ chức chính trị, ấn phẩm, tổ chức công cộng",
-    'MISC': "Tên thực thể bao gồm quốc tịch, tên ngôn ngữ, môn học, danh hiệu, cuộc thi",
+    'LOC': "thực thể địa danh bao gồm tên gọi các hành tinh, thực thể tự nhiên, địa lí lịch sử, vùng quần cư, công trình kiến trúc xây dụng, địa điểm, địa chỉ",
+    'PER': "thực thể người bao gồm tên, tên đệm và họ của người, tên động vật, nhân vật hư cấu, bí danh",
+    'ORG': "thực thể tổ chức bao gồm các cơ quan chính phủ, công ty, thương hiệu, tổ chức chính trị, ấn phẩm, tổ chức công cộng",
+    'MISC': "thực thể bao gồm quốc tịch, ngôn ngữ, môn học, danh hiệu, cuộc thi",
 }
 
 for k in label2query.keys():

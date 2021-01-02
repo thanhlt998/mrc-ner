@@ -80,7 +80,6 @@ class MRCNERDataset(Dataset):
         new_end_positions = [context_word_lengths_cumsum[p + 1] - 1 for p in end_positions]
 
         type_ids = np.zeros(len(tokens))
-        type_ids[query_length + 2: -1] = 1
 
         label_mask = type_ids.copy()
         start_label_mask = np.zeros(len(tokens))
@@ -121,7 +120,7 @@ class MRCNERDataset(Dataset):
 
         if self.pad_to_maxlen:
             tokens = self.pad(tokens, tokenizer.pad_token_id)
-            type_ids = self.pad(type_ids, 1)
+            type_ids = self.pad(type_ids, 0)
             start_labels = self.pad(start_labels)
             end_labels = self.pad(end_labels)
             start_label_mask = self.pad(start_label_mask)
@@ -169,7 +168,7 @@ def run_dataset():
     jsonl_path = "data/vlsp_processed/train.jsonl"
 
     tokenizer = PhobertTokenizer.from_pretrained('vinai/phobert-base')
-    dataset = MRCNERDataset(jsonl_path=jsonl_path, tokenizer=tokenizer, pad_to_maxlen=False)
+    dataset = MRCNERDataset(jsonl_path=jsonl_path, tokenizer=tokenizer, pad_to_maxlen=False, max_length=60)
 
     dataloader = DataLoader(dataset, batch_size=100,
                             collate_fn=collate_to_max_length)
@@ -189,7 +188,7 @@ def run_dataset():
                 print(str(sample_idx.item()), str(label_idx.item()) + "\t" + tokenizer.decode(tokens[start: end + 1]))
 
             print('tokens', tokens)
-            # print(list(zip(tokenizer.convert_ids_to_tokens(tokens), start_labels.tolist())))
+            print(list(zip(tokenizer.convert_ids_to_tokens(tokens), start_labels.tolist())))
             print('token_type_ids', token_type_ids)
             print('start_labels', start_labels)
             print('end_labels', end_labels)
