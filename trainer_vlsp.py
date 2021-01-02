@@ -65,6 +65,8 @@ class BertLabeling(pl.LightningModule):
 
         self.model = PhoBertQueryNER.from_pretrained(args.bert_model,
                                                      config=phobert_config)
+        if args.freeze_bert:
+            self.model.bert.requires_grad_(False)
         self.tokenizer = AutoTokenizer.from_pretrained(args.bert_model)
         logging.info(str(self.model))
         logging.info(str(args.__dict__ if isinstance(args, argparse.ArgumentParser) else args))
@@ -121,6 +123,7 @@ class BertLabeling(pl.LightningModule):
                             help="smooth value of dice loss")
         parser.add_argument("--final_div_factor", type=float, default=1e4,
                             help="final div factor of linear decay scheduler")
+        parser.add_argument("--freeze_bert", action="store_true", help="freeze bert/phobert while training")
         return parser
 
     def configure_optimizers(self):
