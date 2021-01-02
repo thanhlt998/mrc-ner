@@ -25,8 +25,8 @@ from transformers import PhobertTokenizer
 
 # from datasets.mrc_ner_dataset_vlsp2 import run_dataset
 # from datasets.mrc_ner_dataset_vlsp import run_dataset
-from datasets.mrc_ner_dataset import run_dataset
-run_dataset()
+# from datasets.mrc_ner_dataset import run_dataset
+# run_dataset()
 
 
 # from transformers.models.roberta import RobertaModel
@@ -65,3 +65,11 @@ run_dataset()
 #
 # output = phobert_model(input_ids, token_type_ids=input_type_ids, attention_mask=attention_mask)
 # print(output)
+
+
+from models.phobert_query_ner import PhoBertQueryNER
+from models.query_ner_config import PhobertQueryNerConfig
+
+config = PhobertQueryNerConfig.from_pretrained('vinai/phobert-base',
+                                               mrc_dropout=0.1, )
+model = PhoBertQueryNER.from_pretrained('vinai/phobert-base', config=config)

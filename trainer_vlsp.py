@@ -60,13 +60,13 @@ class BertLabeling(pl.LightningModule):
         phobert_config = PhobertQueryNerConfig.from_pretrained(args.bert_model,
                                                                hidden_dropout_prob=args.bert_dropout,
                                                                attention_probs_dropout_prob=args.bert_dropout,
-                                                               type_vocab_size=2,
+                                                               type_vocab_size=1,
                                                                mrc_dropout=args.mrc_dropout)
 
         self.model = PhoBertQueryNER.from_pretrained(args.bert_model,
                                                      config=phobert_config)
         if args.freeze_bert:
-            self.model.bert.requires_grad_(False)
+            self.model.roberta.requires_grad_(False)
         self.tokenizer = AutoTokenizer.from_pretrained(args.bert_model)
         logging.info(str(self.model))
         logging.info(str(args.__dict__ if isinstance(args, argparse.ArgumentParser) else args))

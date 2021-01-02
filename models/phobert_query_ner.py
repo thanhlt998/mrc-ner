@@ -12,7 +12,7 @@ from models.classifier import MultiNonLinearClassifier, SingleLinearClassifier
 class PhoBertQueryNER(RobertaPreTrainedModel):
     def __init__(self, config):
         super(PhoBertQueryNER, self).__init__(config)
-        self.bert = RobertaModel(config)
+        self.roberta = RobertaModel(config)
 
         # self.start_outputs = nn.Linear(config.hidden_size, 2)
         # self.end_outputs = nn.Linear(config.hidden_size, 2)
@@ -37,7 +37,7 @@ class PhoBertQueryNER(RobertaPreTrainedModel):
             match_logits: start-end-match probs of shape [seq_len, 1]
         """
 
-        bert_outputs = self.bert(input_ids, token_type_ids=token_type_ids, attention_mask=attention_mask)
+        bert_outputs = self.roberta(input_ids, token_type_ids=token_type_ids, attention_mask=attention_mask)
 
         sequence_heatmap = bert_outputs[0]  # [batch, seq_len, hidden]
         batch_size, seq_len, hid_size = sequence_heatmap.size()
