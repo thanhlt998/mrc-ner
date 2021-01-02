@@ -124,6 +124,8 @@ class BertLabeling(pl.LightningModule):
         parser.add_argument("--final_div_factor", type=float, default=1e4,
                             help="final div factor of linear decay scheduler")
         parser.add_argument("--freeze_bert", action="store_true", help="freeze bert/phobert while training")
+        parser.add_argument("--test_only", action="store_true", help="test model + require checkpoint path")
+        parser.add_argument("--test_checkpoint_path", type="str", help="checkpoint path in test mode")
         return parser
 
     def configure_optimizers(self):
@@ -382,25 +384,37 @@ def main():
 
     args = parser.parse_args()
 
-    model = BertLabeling(args)
-    if args.pretrained_checkpoint:
-        model.load_state_dict(torch.load(args.pretrained_checkpoint,
-                                         map_location=torch.device('cpu'))["state_dict"])
+    if not args.test_only:
+        model = BertLabeling(args)
+        if args.pretrained_checkpoint:
+            model.load_state_dict(torch.load(args.pretrained_checkpoint,
+                                             map_location=torch.device('cpu'))["state_dict"])
 
-    checkpoint_callback = ModelCheckpoint(
-        filepath=args.default_root_dir,
-        save_top_k=10,
-        verbose=True,
-        monitor="span_f1",
-        period=-1,
-        mode="max",
-    )
-    trainer = Trainer.from_argparse_args(
-        args,
-        checkpoint_callback=checkpoint_callback
-    )
+        checkpoint_callback = ModelCheckpoint(
+            filepath=args.default_root_dir,
+            save_top_k=1,
+            verbose=True,
+            monitor="span_f1",
+            period=-1,
+            mode="max",
+        )
+        trainer = Trainer.from_argparse_args(
+            args,
+            checkpoint_callback=checkpoint_callback
+        )
 
-    trainer.fit(model)
+        trainer.fit(model)
+        trainer.test()
+    else:
+        assert args.test_checkpoint_path, 'test_checkpoint_path is required in test_mode'
+        model = BertLabeling.load_from_checkpoint(
+            checkpoint_path=args.test_checkpont_path,
+            on_gpu=True,
+        )
+        trainer = Trainer.from_argparse_args(
+            args,
+        )
+        trainer.test(model)
 
 
 if __name__ == '__main__':
