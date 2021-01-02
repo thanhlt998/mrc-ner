@@ -125,7 +125,7 @@ class BertLabeling(pl.LightningModule):
                             help="final div factor of linear decay scheduler")
         parser.add_argument("--freeze_bert", action="store_true", help="freeze bert/phobert while training")
         parser.add_argument("--test_only", action="store_true", help="test model + require checkpoint path")
-        parser.add_argument("--test_checkpoint_path", type="str", help="checkpoint path in test mode")
+        parser.add_argument("--test_checkpoint_path", type=str, help="checkpoint path in test mode")
         return parser
 
     def configure_optimizers(self):
