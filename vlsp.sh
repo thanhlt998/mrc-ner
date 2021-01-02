@@ -17,7 +17,7 @@ python trainer_vlsp.py \
 --bert_model $BERT_MODEL \
 --max_length $MAXLEN \
 --gpus="1" \
---batch_size 4 \
+--batch_size 32 \
 --precision=16 \
 --progress_bar_refresh_rate 1 \
 --lr $LR \
