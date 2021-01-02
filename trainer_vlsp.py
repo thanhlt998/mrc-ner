@@ -408,7 +408,7 @@ def main():
     else:
         assert args.test_checkpoint_path, 'test_checkpoint_path is required in test_mode'
         model = BertLabeling.load_from_checkpoint(
-            checkpoint_path=args.test_checkpont_path,
+            checkpoint_path=args.test_checkpoint_path,
             on_gpu=True,
         )
         trainer = Trainer.from_argparse_args(
