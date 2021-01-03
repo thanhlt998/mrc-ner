@@ -9,15 +9,16 @@ SPAN_WEIGHT=0.1
 WARMUP=0
 MAXLEN=256
 MAXNORM=1.0
+BS=5
 
-OUTPUT_DIR="log/train_logs/vlsp2018/vlsp2018_reproduce_lr${LR}_drop${MRC_DROPOUT}_norm${MAXNORM}_bsz32_hard_span_weight${SPAN_WEIGHT}_warmup${WARMUP}_maxlen${MAXLEN}_newtrunc_debug"
+OUTPUT_DIR="log/train_logs/vlsp2018/vlsp2018_reproduce_lr${LR}_drop${MRC_DROPOUT}_norm${MAXNORM}_bsz${BS}_hard_span_weight${SPAN_WEIGHT}_warmup${WARMUP}_maxlen${MAXLEN}_newtrunc_debug"
 mkdir -p $OUTPUT_DIR
 python -W ignore trainer_vlsp.py \
 --data_dir $DATA_DIR \
 --bert_model $BERT_MODEL \
 --max_length $MAXLEN \
 --gpus="1" \
---batch_size 10 \
+--batch_size $BS \
 --precision=16 \
 --progress_bar_refresh_rate 1 \
 --lr $LR \
