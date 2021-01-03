@@ -392,7 +392,7 @@ def main():
 
         checkpoint_callback = ModelCheckpoint(
             filepath=args.default_root_dir,
-            save_top_k=1,
+            save_top_k=3,
             verbose=True,
             monitor="span_f1",
             period=-1,
