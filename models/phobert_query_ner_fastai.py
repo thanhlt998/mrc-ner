@@ -10,8 +10,6 @@ class PhoBertQueryNER(RobertaPreTrainedModel):
     def __init__(self, config):
         super(PhoBertQueryNER, self).__init__(config)
         self.roberta = RobertaModel(config)
-        self.sep_token_id = config.sep_token_id
-        self.pad_token_id = config.pad_token_id
 
         # self.start_outputs = nn.Linear(config.hidden_size, 2)
         # self.end_outputs = nn.Linear(config.hidden_size, 2)
