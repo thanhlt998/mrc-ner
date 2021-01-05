@@ -82,7 +82,7 @@ class CustomLoss(nn.Module):
 class CustomAdaptiveLoss(nn.Module):
     def __init__(
             self,
-            n_task=3,
+            n_task=2,
             span_loss_candidates='all',
             loss_type='bce',
             dice_smooth=1e-8,
@@ -146,8 +146,10 @@ class CustomAdaptiveLoss(nn.Module):
         return self._combine_loss(start_loss, end_loss, match_loss)
 
     def _combine_loss(self, start_loss, end_loss, match_loss):
+        w1 = torch.exp(-self.log_vars[0])
+        w2 = torch.exp(-self.log_vars[1])
         return (
-            torch.exp(-self.log_vars[0]) * start_loss + self.log_vars[0]
-            + torch.exp(-self.log_vars[1]) * end_loss + self.log_vars[1]
-            + torch.exp(-self.log_vars[2]) * match_loss + self.log_vars[2]
+            w1 * start_loss + self.log_vars[0]
+            + w1 * end_loss + self.log_vars[0]
+            + w2 * match_loss + self.log_vars[1]
         )
