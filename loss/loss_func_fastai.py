@@ -149,7 +149,7 @@ class CustomAdaptiveLoss(nn.Module):
         w1 = torch.exp(-self.log_vars[0])
         w2 = torch.exp(-self.log_vars[1])
         return (
-            w1 * start_loss + self.log_vars[0]
+            w1 * start_loss
             + w1 * end_loss + self.log_vars[0]
             + w2 * match_loss + self.log_vars[1]
         )
