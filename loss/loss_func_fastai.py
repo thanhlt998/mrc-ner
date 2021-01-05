@@ -82,7 +82,6 @@ class CustomLoss(nn.Module):
 class CustomAdaptiveLoss(nn.Module):
     def __init__(
             self,
-            n_task=2,
             span_loss_candidates='all',
             loss_type='bce',
             dice_smooth=1e-8,
@@ -96,7 +95,7 @@ class CustomAdaptiveLoss(nn.Module):
         else:
             self.dice_loss = DiceLoss(with_logits=True, smooth=dice_smooth)
 
-        self.log_vars = nn.Parameter(torch.zeros(n_task))
+        self.log_vars = nn.Parameter(torch.zeros(2))
 
     def forward(self, input, *target):
         start_logits, end_logits, span_logits = input
