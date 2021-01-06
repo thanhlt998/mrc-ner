@@ -14,7 +14,7 @@ def change_query(data: list, query_mapping: dict = None):
     for item in data:
         new_item = {
             **item,
-            'query': query_mapping.get('query', item.get('query'))
+            'query': query_mapping.get(item.get('entity_label'), item.get('query'))
         }
         new_data.append(new_item)
     return new_data
