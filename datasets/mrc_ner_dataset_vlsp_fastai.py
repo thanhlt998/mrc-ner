@@ -153,8 +153,12 @@ class BeforeBatchTransform(Transform):
         return new_items
 
     def _truncate(self, item: tuple):
-        if len(item) == 2:
-            item = (item[0], *item[1])
+        if len(item) == 1:
+            token_ids = item[0]
+            token_ids = token_ids[:self.max_seq_length]
+            token_ids[-1] = self.sep_token_id
+            return (token_ids,)
+        item = (item[0], *item[1])
         token_ids = item[0]
         seq_len = len(token_ids)
         if seq_len <= self.max_seq_length:
